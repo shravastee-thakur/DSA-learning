@@ -37,7 +37,6 @@ function countDigits(num) {
   return count;
 }
 
-
 // 4. Palindrome number
 function isPalindrome(num) {
   let ogNum = num;
@@ -50,7 +49,6 @@ function isPalindrome(num) {
   }
   return rev === ogNum;
 }
-
 
 // 5. Fibonacci Series
 // 0 1 1 2 3 5 8
@@ -70,7 +68,6 @@ function fibonacci(num) {
 
   return series;
 }
-
 
 // 6. Product of digits of a number
 
@@ -233,8 +230,11 @@ console.log(isArmstrong(153)); // true
 // 16. given Year is Leap Year
 
 function isLeapYear(year) {
-  // A year is a leap year if it is divisible by 4 AND NOT 100,
-  // OR if it is divisible by 400.
+  //   A year is a leap year if it is divisible by 4.
+
+  // The Exception: If it is divisible by 100, it is not a leap year...
+
+  // The Exception to the Exception: ...unless it is also divisible by 400. Then it is a leap year.
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
 
@@ -242,26 +242,24 @@ function isLeapYear(year) {
 console.log(isLeapYear(2000)); // true
 console.log(isLeapYear(2100)); // false
 
-// 17. Prtfect number
-/*A number is a perfect number if it is equal to the sum of its proper divisors, that is, the sum of its positive divisors excluding the number itself.*/
+// 17. Perfect number
+/*A number is a perfect number if it is equal to the sum of its proper divisors (its factors), that is, the sum of its positive divisors excluding the number itself.*/
 
 function isPerfect(n) {
   if (n <= 1) return false; // 1 and negative numbers are not perfect
 
   let sum = 1; // 1 is always a proper divisor, start with it
-  const limit = Math.sqrt(n);
 
-  for (let i = 2; i < limit; i++) {
+  for (let i = 2; i < Math.sqrt(n); i++) {
     if (n % i === 0) {
-      sum += i; // Add the smaller factor
-      sum += n / i; // Add its larger partner factor
-    }
-  }
+      sum += i;
 
-  // If n is a perfect square, the square root was skipped by the loop
-  // so we add it exactly once here
-  if (Number.isInteger(limit)) {
-    sum += limit;
+      if (i !== n / i) {
+        sum += n / i;
+
+        // if num is 16, its square root is 4. When i = 4, its partner is 16 / 4 = 4. Without this check, we would accidentally add 4 to the sum twice.
+      }
+    }
   }
 
   return sum === n;

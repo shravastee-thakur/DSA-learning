@@ -1,8 +1,15 @@
-// multiplication table of a number
+function isPerfect(n) {
+  let sum = 1;
 
-function multiplicationTable(n) {
-  for (let i = 1; i <= 10; i++) {
-    console.log(`${n} * ${i} = ${n * i}`);
-  }
+  for (i = 2; i <= Math.sqrt(n); i++) {
+    if (n % i === 0) return true;
+
+    if (i !== n / 2) {
+      sum += n / 2;
+    }
+  } 
+
+  return sum === n;
 }
-console.log(multiplicationTable(2));
+
+console.log(isPerfect(6));
