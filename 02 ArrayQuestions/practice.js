@@ -1,14 +1,11 @@
-function sortByFrequency(arr) {
-  const freq = {};
+function majorityElement(arr) {
+  let count = 0
+  let candidate = null
 
-  for (const num of arr) {
-    freq[num] = (freq[num] || 0) + 1;
+  for(const num of arr){
+    if(count === num)
   }
-
-  return arr.sort((a, b) => {
-    if (freq[b] === freq[a]) return a - b;
-    return freq[b] - freq[a];
-  });
+  return true;
 }
 
-console.log(sortByFrequency([2, 2, 2, 7, 7, 2, 11, 15]));
+console.log(majorityElement([2, 6, 8, 6, 5, 12, 3]));
