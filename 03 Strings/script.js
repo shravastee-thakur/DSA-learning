@@ -215,20 +215,133 @@ console.log(reverseStr("abcdefg", 2));
 // 1st block (2k = 4): "abcd" -> reverse first 2 -> "ba" + "cd"
 // 2nd block: "efg" -> remaining length is 3 (which is < 2k but >= k) -> reverse first 2 -> "fe" + "g"
 
-/*3. Character Manipulation
-Remove character
-Remove duplicate characters
-Duplicates in the input string
-Replace spaces with %20
-Toggle case
-Convert characters of a string to opposite case
-Convert to uppercase
-Convert to lowercase
-Sort string of characters
+// 3. --------- Character Manipulation ------
 
+// 11) Remove character
 
-4. Linear Search & Substring
-Find first occurrence of a character
+function removeCharacter(str, target) {
+  return str.split(target).join("");
+}
+
+console.log(removeCharacter("banana", "a")); // Output: "bnn"
+
+// 12) Remove duplicate characters
+
+function removeDuplicates(str) {
+  // Set automatically removes duplicates; spread operator turns it back to an array
+  return [...new Set(str)].join("");
+}
+
+console.log(removeDuplicates("programming")); // Output: "progamin"
+
+// 13) Duplicates in the input string
+
+function findDuplicates(str) {
+  const freqMap = {};
+  const duplicates = [];
+
+  for (let char of str) {
+    freqMap[char] = (freqMap[char] || 0) + 1;
+  }
+
+  for (let char in freqMap) {
+    if (freqMap[char] > 1) {
+      duplicates.push(char);
+    }
+  }
+
+  return duplicates;
+}
+
+console.log(findDuplicates("test string")); // Output: [ 't', 's', ' ' ]
+
+// 14) Replace spaces with %20
+
+function replaceSpaces(str) {
+  return str.replaceAll(" ", "%20");
+}
+
+console.log(replaceSpaces("hello world prep")); // Output: "hello%20world%20prep"
+
+// 15) Toggle case
+function toggleCase(str) {
+  let result = "";
+  for (let char of str) {
+    if (char === char.toUpperCase()) {
+      result += char.toLowerCase();
+    } else {
+      result += char.toUpperCase();
+    }
+  }
+  return result;
+}
+
+console.log(toggleCase("SanFoundry 123")); // Output: "sANfOUNDRY 123"
+
+// ------ With ASCI Characters ------
+
+function toggleChar(s) {
+  let toggle = "";
+
+  for (let i = 0; i <= s.length - 1; i++) {
+    let ch = s.charCodeAt(i);
+    if (ch >= 65 && ch <= 90) {
+      toggle = toggle + String.fromCharCode(ch + 32);
+    } else if (ch >= 97 && ch <= 122)
+      toggle = toggle + String.fromCharCode(ch - 32);
+  }
+
+  return toggle;
+}
+
+console.log(toggleChar("ShRa"));
+
+// 16) Convert to uppercase
+
+function toUpperCaseManual(str) {
+  let result = "";
+  for (let i = 0; i < str.length; i++) {
+    let code = str.charCodeAt(i);
+    // Check if character is between 'a' (97) and 'z' (122)
+    if (code >= 97 && code <= 122) {
+      result += String.fromCharCode(code - 32);
+    } else {
+      result += str[i]; // Keep digits, spaces, and existing uppercase as-is
+    }
+  }
+  return result;
+}
+
+console.log(toUpperCaseManual("placement 2026")); // Output: "PLACEMENT 2026"
+
+// 17) Convert to lowercase
+
+function toLowerCaseManual(str) {
+  let result = "";
+  for (let i = 0; i < str.length; i++) {
+    let code = str.charCodeAt(i);
+    // Check if character is between 'A' (65) and 'Z' (90)
+    if (code >= 65 && code <= 90) {
+      result += String.fromCharCode(code + 32);
+    } else {
+      result += str[i];
+    }
+  }
+  return result;
+}
+
+console.log(toLowerCaseManual("DSA_PREP")); // Output: "dsa_prep"
+
+// 18) Sort string of characters
+
+function sortString(str) {
+  return str.split("").sort().join("");
+}
+
+console.log(sortString("dcbaef")); // Output: "abcdef"
+
+// 4. -------- Linear Search & Substring ------
+/*Find first occurrence of a character
 Find all occurrences of a character
 Count occurrences of a substring
 Check if a substring exists

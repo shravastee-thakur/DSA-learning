@@ -1,11 +1,5 @@
-function majorityElement(arr) {
-  let count = 0
-  let candidate = null
-
-  for(const num of arr){
-    if(count === num)
-  }
-  return true;
+function linearSearch(arr, k) {
+ 
 }
 
-console.log(majorityElement([2, 6, 8, 6, 5, 12, 3]));
+console.log(linearSearch([1, 2, 1, 3, 4, 5, 6], 1));

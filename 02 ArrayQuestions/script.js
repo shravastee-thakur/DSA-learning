@@ -163,7 +163,7 @@ for (let i = arr.length - 1; i >= 0; i--) {
 }
 console.log(temp);
 
-// 11) Reverse Array In-Place
+// 11) Reverse Array In-Place / Reverse without extra array
 
 function reverseInPlace(arr) {
   let left = 0,
@@ -176,43 +176,28 @@ function reverseInPlace(arr) {
   return arr;
 }
 
-// 12) Reverse without extra array
 
-let arr = [10, 20, 30, 40, 50];
-let i = 0,
-  j = arr.length - 1;
+// 12) Print array after it is right rotated K times
 
-while (i != j) {
-  let temp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = temp;
-  i++;
-  j--;
-}
+// function rotateRight(arr, k) {
+//   k = k % arr.length;
+//   reverse(arr, 0, arr.length - 1);
+//   reverse(arr, 0, k - 1);
+//   reverse(arr, k, arr.length - 1);
+//   return arr;
+// }
 
-console.log(arr);
-
-// 13) Print array after it is right rotated K times
-
-function rotateRight(arr, k) {
-  k = k % arr.length;
-  reverse(arr, 0, arr.length - 1);
-  reverse(arr, 0, k - 1);
-  reverse(arr, k, arr.length - 1);
-  return arr;
-}
-
-function reverse(arr, start, end) {
-  while (start < end) {
-    [arr[start], arr[end]] = [arr[end], arr[start]];
-    start++;
-    end--;
-  }
-}
+// function reverse(arr, start, end) {
+//   while (start < end) {
+//     [arr[start], arr[end]] = [arr[end], arr[start]];
+//     start++;
+//     end--;
+//   }
+// }
 
 // -------- 3. Linear Search Pattern ------
 
-// 14) Find First Index of Target
+// 13) Find First Index of Target
 
 //Statement: Return the index of the first occurrence of target. Return -1 if not found.
 // Example: linearSearch([5, 3, 8, 3, 2], 3) → 1
@@ -229,7 +214,7 @@ function linearSearch(arr, target) {
 
 console.log(linearSearch([5, 2, 3, 8, 3, 2], 2));
 
-// 15) Check Existence (Boolean Search)
+// 14) Check Existence (Boolean Search)
 
 //Statement: Return true if target exists in the array, otherwise false. Stop searching the moment you find it.
 //Example: exists([7, 2, 9, 4], 9) → true
@@ -241,7 +226,7 @@ function exists(arr, target) {
   return false;
 }
 
-// 16) Find All Indices of Target
+// 15) Find All Indices of Target
 
 // Statement: Return an array containing every index where target appears.
 // Example: findAll([4, 1, 4, 5, 4], 4) → [0, 2, 4]
@@ -254,7 +239,7 @@ function findAll(arr, target) {
   return indices;
 }
 
-// 17) First Element Matching a Condition
+// 16) First Element Matching a Condition
 
 // Statement: Find the first number greater than a threshold k. Return the number, or null if none.
 // Example: findFirstGreaterThan([2, 8, 5, 12, 3], 6) → 8
@@ -267,7 +252,7 @@ function findFirstGreaterThan(arr, k) {
   return null;
 }
 
-// 18) Count Occurrences
+// 17) Count Occurrences
 
 // Statement: Count how many times target appears in the array.
 // Example: countOccurrences([1, 2, 1, 3, 1, 4], 1) → 3
@@ -283,7 +268,7 @@ function countOccurrences(arr, target) {
 
 // ------- 4. Sorting / Order Checking -------
 
-// 19) Program to check if an array is sorted or not
+// 18) Program to check if an array is sorted or not
 
 function isSorted(arr) {
   for (let i = 1; i < arr.length; i++) {
@@ -294,13 +279,13 @@ function isSorted(arr) {
 
 // --------- 5. Hashing / Frequency Count -------
 
-// 20) Contains Duplicate
+// 19) Contains Duplicate
 // A Set in JavaScript is a special object collection that can only hold unique values. When you pass an array into a new Set, it automatically filters out any duplicate items.
 function hasDuplicate(arr) {
   return new Set(arr).size !== arr.length;
 }
 
-// 21) Counting frequencies of array elements
+// 20) Counting frequencies of array elements
 
 function countFrequencies(arr) {
   const freq = {};
@@ -310,8 +295,10 @@ function countFrequencies(arr) {
   return freq;
 }
 
-// 22) Majority Element
+// 21) Majority Element
+// As we loop through the array, if the count ever drops to 0, it means the previous candidate has lost all their advantage (they were cancelled out by other numbers). When this happens, the very next number we look at immediately becomes the new candidate.(if (count === 0) candidate = num)
 
+// If (num === candidate) add 1 to count
 function majorityElement(nums) {
   let count = 0,
     candidate = null;
@@ -324,7 +311,7 @@ function majorityElement(nums) {
   return candidate;
 }
 
-// 23) Sort elements by frequency
+// 22) Sort elements by frequency
 
 function sortByFrequency(arr) {
   const freq = {};
@@ -340,7 +327,7 @@ function sortByFrequency(arr) {
 
 console.log(sortByFrequency([2, 2, 5, 5, 5, 6, 7, 1, 2, 2]));
 
-// 24) Intersection of Two Arrays
+// 23) Intersection of Two Arrays
 
 function intersection(nums1, nums2) {
   const set1 = new Set(nums1);
@@ -356,7 +343,7 @@ function intersection(nums1, nums2) {
 console.log(intersection([2, 2, 5, 5, 5, 6, 7, 1, 2, 2], [1, 2, 3, 4, 5]));
 // -------- 6. Two Pointer Pattern ---------
 
-// 25) Move Zeroes
+// 24) Move Zeroes
 
 function moveZeroes(nums) {
   let lastNonZero = 0;
@@ -369,7 +356,7 @@ function moveZeroes(nums) {
   return nums;
 }
 
-// 26) All zeros to left
+// 25) All zeros to left
 
 let arr = [1, 1, 0, 1, 0, 1, 1, 0, 0];
 
@@ -388,7 +375,7 @@ while (i < arr.length) {
 
 console.log(arr);
 
-// 27) Remove Duplicates from Sorted Array (In-Place)
+// 26) Remove Duplicates from Sorted Array (In-Place)
 
 function removeDuplicates(arr) {
   if (arr.length === 0) return 0;
@@ -402,7 +389,7 @@ function removeDuplicates(arr) {
   return slow + 1; // new length
 }
 
-// 28) Two Sum II – Input Array Is Sorted
+// 27) Two Sum II – Input Array Is Sorted
 
 // Statement: Given a sorted array and a target, find two numbers that add up to target. Return their 0-based indices. Exactly one solution exists.
 // Example: [2, 7, 11, 15], target 9 → [0, 1]
@@ -420,7 +407,7 @@ function twoSumSorted(arr, target) {
   return []; // Shouldn't reach here per problem constraints
 }
 
-// 29) Squares of a Sorted Array
+// 28) Squares of a Sorted Array
 
 // Statement: Given an array sorted in non-decreasing order (may contain negatives), return a new array of their squares, also sorted.
 // Example: [-4, -1, 0, 3, 10] → [0, 1, 9, 16, 100]
@@ -447,7 +434,7 @@ function sortedSquares(arr) {
   return result;
 }
 
-// 30) Merge Two Sorted Arrays
+// 29) Merge Two Sorted Arrays
 
 // Statement: nums1 has size m + n. First m elements are valid, last n are 0. nums2 has n elements. Merge nums2 into nums1 in sorted order.
 // Example: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3 → [1,2,2,3,5,6]
