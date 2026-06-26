@@ -121,20 +121,38 @@ console.log(maxVowelAndConsonant("Success"));
 // Output: { mostFrequentVowel: 'e', mostFrequentConsonant: 's' }
 
 // 8) Find the Difference
+function findMultipleDifferences(s, t) {
+  const freqMap = {};
+  let missingChars = "";
 
-function findTheDifference(s, t) {
-  let resultXOR = 0;
+  // 1. Tally up all the letters in the bigger string (t)
+  for (let char of t) {
+    freqMap[char] = (freqMap[char] || 0) + 1;
+  }
 
-  // XOR all characters of both strings
-  for (let i = 0; i < s.length; i++) resultXOR ^= s.charCodeAt(i);
-  for (let i = 0; i < t.length; i++) resultXOR ^= t.charCodeAt(i);
+  // 2. Subtract the letters that exist in the smaller string (s)
+  for (let char of s) {
+    freqMap[char]--;
+  }
 
-  return String.fromCharCode(resultXOR);
+  // 3. Whatever is left with a count > 0 is our extra letters!
+  for (let char in freqMap) {
+    while (freqMap[char] > 0) {
+      missingChars += char;
+      freqMap[char]--; // Subtract so we don't double-count
+    }
+  }
+
+  return missingChars;
 }
 
-console.log(findTheDifference("abcd", "abcde")); // Output: "e"
+console.log(findMultipleDifferences("abcd", "abcdef")); // Output: "ef"
+console.log(findMultipleDifferences("a", "aaabb")); // Output: "aabb"
 
 // 9) Fizz Buzz (basic string manipulation)
+/*
+Replace any number divisible by 3 with the word "Fizz".Replace any number divisible by 5 with the word "Buzz".Replace any number divisible by both 3 and 5 (e.g., 15, 30) with the word "FizzBuzz
+*/
 
 function fizzBuzz(n) {
   const result = [];
@@ -159,26 +177,17 @@ console.log(fizzBuzz(15));
 
 // 10) Reverse a string (Two Pointers)
 
-function reverseString(s) {
-  // If the input is a string, convert it to an array of characters
-  let arr = typeof s === "string" ? s.split("") : s;
-
-  let left = 0;
-  let right = arr.length - 1;
+function reverseString(str) {
+  let arr = typeof str === "string" ? str.split("") : str;
+  let left = 0,
+    right = arr.length - 1;
 
   while (left < right) {
-    // Classic swap using a temporary variable
-    let temp = arr[left];
-    arr[left] = arr[right];
-    arr[right] = temp;
-
-    // Move pointers closer to the center
+    [arr[left], arr[right]] = [arr[right], arr[left]];
     left++;
     right--;
   }
-
-  // Return as string if input was string, else return modified array
-  return typeof s === "string" ? arr.join("") : arr;
+  return typeof str === "string" ? arr.join("") : arr;
 }
 
 console.log(reverseString("interview")); // Output: "weivretni"
@@ -283,7 +292,7 @@ console.log(toggleCase("SanFoundry 123")); // Output: "sANfOUNDRY 123"
 function toggleChar(s) {
   let toggle = "";
 
-  for (let i = 0; i <= s.length - 1; i++) {
+  for (let i = 0; i <= s.length; i++) {
     let ch = s.charCodeAt(i);
     if (ch >= 65 && ch <= 90) {
       toggle = toggle + String.fromCharCode(ch + 32);
@@ -341,14 +350,125 @@ function sortString(str) {
 console.log(sortString("dcbaef")); // Output: "abcdef"
 
 // 4. -------- Linear Search & Substring ------
-/*Find first occurrence of a character
-Find all occurrences of a character
-Count occurrences of a substring
-Check if a substring exists
-Check if a string is substring of another
-Find Words Containing Character
 
+// 19) Find first occurrence of a character
+/*We use a standard Linear Search. We loop through the string one letter
+ * at a time from left to right. As soon as we find a match, we immediately
+ * stop the loop and return the current index.*/
 
-5. Palindrome Pattern
-Given String is Palindrome or not
-Valid Palindrome*/
+function findFirstOccurrence(str, char) {
+  for (let i = 0; i < str.length; i++) {
+    // If the current letter matches our target, return its position
+    if (str[i] === char) {
+      return i;
+    }
+  }
+  // If the loop finishes and we never found it, return -1 (standard 'not found' signal)
+  return -1;
+}
+
+console.log("1. First Occurrence:", findFirstOccurrence("hello", "l")); // Output: 2
+
+// 20) Find all occurrences of a character
+/*Similar to the first problem, but instead of stopping when we find the first match, 
+we keep a running list (an array) of every index where the character appears.*/
+
+function findAllOccurrences(str, char) {
+  const indices = []; // Array to store our findings
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === char) {
+      // Instead of returning, we push the index into our array and keep searching
+      indices.push(i);
+    }
+  }
+
+  return indices;
+}
+
+console.log("2. All Occurrences:", findAllOccurrences("hello", "l")); // Output: [2, 3]
+
+// 21) Check if a substring exists
+/*In modern JS, you would just use `str.includes(sub)`. But in a strict DSA interview,
+ * you must build it from scratch using a "Nested Loop" or "Sliding Window".
+ * We check every possible starting position in the main string. If the first letter
+ * matches, we start a second loop to see if the rest of the word matches too.*/
+
+function substringExists(str, sub) {
+  // Edge case: an empty substring is technically always "found"
+  if (sub.length === 0) return true;
+  // Edge case: the substring can't be bigger than the main string
+  if (sub.length > str.length) return false;
+
+  // We only need to loop up to the point where the remaining letters
+  // are fewer than the length of the substring we are looking for.
+  for (let i = 0; i <= str.length - sub.length; i++) {
+    let j = 0;
+
+    // While the characters match, keep checking the next character in the substring
+    while (j < sub.length && str[i + j] === sub[j]) {
+      j++;
+    }
+
+    // If 'j' reaches the exact length of the substring, it means every letter matched!
+    if (j === sub.length) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+console.log("3. Substring Exists:", substringExists("hello world", "world")); // Output: true
+
+// 22) Find Words Containing Character
+/* We are given an array of words. We need to check each word to see if it contains 
+the target character. If it does, we record the *index of the word* in our result array.*/
+
+function findWordsContaining(words, char) {
+  const resultIndices = [];
+
+  for (let i = 0; i < words.length; i++) {
+    // Loop through the letters of the current word
+    for (let j = 0; j < words[i].length; j++) {
+      if (words[i][j] === char) {
+        // If we find the letter, save the index of the word itself
+        resultIndices.push(i);
+        // Break out of the inner loop immediately. We already know the word
+        // contains the letter, so we don't need to keep searching this specific word.
+        break;
+      }
+    }
+  }
+
+  return resultIndices;
+}
+
+console.log("4. Words Containing:", findWordsContaining(["leet", "code"], "e")); // Output: [0, 1]
+
+// 23) Given String is Palindrome or not
+
+/*This uses the classic "Two Pointers (Opposite Ends)" pattern.
+ * We place one pointer at the start and one at the end. They step inward, comparing
+ * letters. If they ever point to different letters, it's not a palindrome.
+ * If they successfully cross each other, it's a perfect palindrome!*/
+
+function isPalindrome(str) {
+  let left = 0;
+  let right = str.length - 1;
+
+  while (left < right) {
+    // If the left and right letters don't match, the mirror is broken!
+    if (str[left] !== str[right]) {
+      return false;
+    }
+    // Move both pointers one step closer to the middle
+    left++;
+    right--;
+  }
+
+  // If the loop finishes without returning false, it must be a palindrome
+  return true;
+}
+
+console.log("5. Is Palindrome:", isPalindrome("racecar")); // Output: true

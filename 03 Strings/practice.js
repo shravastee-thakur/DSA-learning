@@ -1,11 +1,15 @@
-function getFrequency(str) {
-  const freq = {};
-
-  for (const char of str) {
-    freq[char] = (freq[char] || 0) + 1;
+function findWordsContaining(word, char) {
+  let resultIndices = [];
+  for (let i = 0; i < word.length; i++) {
+    for (let j = 0; j < word[i].length; j++) {
+      if (word[i][j] === char) {
+        indexes.push(i);
+        resultIndices.push(i);
+        break;
+      }
+    }
   }
-
-  return freq;
+  return resultIndices;
 }
 
-console.log(getFrequency("apple"));
+console.log(findWordsContaining(["leet", "code"], "e"));
