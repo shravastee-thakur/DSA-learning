@@ -1,13 +1,13 @@
-function removeDuplicates(arr) {
-  if (arr.length === 0) return 0;
-  let slow = 0;
-  for (let fast = 1; fast < arr.length; fast++) {
-    if (arr[fast] !== arr[slow]) {
-      slow++;
-      arr[slow] = arr[fast];
-    }
+function majorityElement(nums) {
+  let count = 0,
+    candidate = null;
+
+  for (const num of nums) {
+    if (count === 0) candidate = num;
+    count += num === candidate ? 1 : -1;
   }
-  return slow + 1;
+
+  return candidate;
 }
 
-console.log(removeDuplicates([1, 0, 2, 0, 0, 4, 5]));
+console.log(majorityElement([2, 2, 5, 5, 5, 6, 7, 1, 2, 2]));
