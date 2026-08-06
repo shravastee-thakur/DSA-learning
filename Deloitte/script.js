@@ -1,0 +1,34 @@
+/* Easy Level
+Find the Second Largest Element in an Array
+Check Whether a Number is Prime
+Reverse a String
+Check for Palindrome
+Count Vowels in a String
+Find the Missing Number in an Array
+Remove Duplicate Elements from an Array
+Find the Maximum and Minimum Element
+Factorial of a Number
+Fibonacci Series
+Binary Search
+Linear Search
+Check if Two Strings are Anagrams
+Merge Two Sorted Arrays
+Count Frequency of Elements in an Array
+
+
+Medium Level
+Longest Substring Without Repeating Characters
+Product of Array Except Self
+Group Anagrams
+Search in Rotated Sorted Array
+Kth Largest Element in an Array
+Coin Change
+Number of Islands
+House Robber
+Course Schedule
+Detect Cycle in a Linked List
+Implement LRU Cache
+Top K Frequent Elements
+Merge Intervals
+Longest Increasing Subsequence
+Lowest Common Ancestor of a Binary Tree */

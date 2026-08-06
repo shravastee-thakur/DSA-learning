@@ -1,13 +1,21 @@
-function majorityElement(nums) {
-  let count = 0,
-    candidate = null;
+function thirdMax(nums) {
+  let first = -Infinity,
+    second = -Infinity,
+    third = -Infinity;
 
   for (const num of nums) {
-    if (count === 0) candidate = num;
-    count += num === candidate ? 1 : -1;
+    if (first === num || second === num || third === num) continue;
+
+    if (num > first) {
+      [third, second, first] = [second, first, num];
+    } else if (num > second) {
+      [third, second] = [second, num];
+    } else if (num > third) {
+      third = num;
+    }
   }
 
-  return candidate;
+  return third === -Infinity ? first : third;
 }
 
-console.log(majorityElement([2, 2, 5, 5, 5, 6, 7, 1, 2, 2]));
+console.log(thirdMax([1, 2, 3, 4, 5, 6]));
