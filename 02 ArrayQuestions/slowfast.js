@@ -9,6 +9,7 @@
 8. Remove All Occurrences
 9. Compact Array
 10. Copy Non-Zero Elements
+11. Duplicate Zeros (LeetCode 1089)
 */
 
 // 1. Find Middle Element
@@ -22,7 +23,7 @@ function findMiddle(arr) {
   let slow = 0;
   let fast = 0;
 
-  while (fast < arr.length - 1 && fast + 1 < arr.length) {
+  while (fast < arr.length - 1) {
     slow++;
     fast += 2;
   }
@@ -118,6 +119,7 @@ console.log(moveZeroes([0, 1, 0, 3, 12]));
 // [1,3,12,0,0]
 
 // 6. Move Zeroes to Front - Time: O(n)
+// You must do this in-place without making a copy of the array, while maintaining the relative order of the non-zero elements. No corrupt order
 
 function moveZeroesFront(nums) {
   let slow = nums.length - 1;
@@ -207,3 +209,47 @@ function copyNonZero(nums) {
 
 console.log(copyNonZero([0, 1, 0, 3, 12]));
 // [1,3,12]
+
+// 11. Duplicate Zeros (LeetCode 1089)
+
+function duplicateZeros(arr) {
+  let possibleDups = 0;
+  let last = arr.length - 1;
+
+  // Count duplicatable zeros
+  for (let left = 0; left <= last - possibleDups; left++) {
+    if (arr[left] === 0) {
+      if (left === last - possibleDups) {
+        arr[last] = 0;
+        last--;
+        break;
+      }
+      possibleDups++;
+    }
+  }
+
+  let i = last - possibleDups;
+  let j = last;
+
+  while (i >= 0) {
+    if (arr[i] === 0) {
+      arr[j] = 0;
+      j--;
+      arr[j] = 0;
+      j--;
+    } else {
+      arr[j] = arr[i];
+      j--;
+    }
+    i--;
+  }
+
+  return arr;
+}
+
+console.log(duplicateZeros([1, 0, 2, 3, 0, 4, 5, 0]));
+
+// arr = [1,0,2,3,0,4,5,0]
+
+// Output:
+// [1,0,0,2,3,0,0,4]

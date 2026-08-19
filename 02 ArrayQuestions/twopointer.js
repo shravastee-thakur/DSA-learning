@@ -1,14 +1,33 @@
-/*Two pointer questions - Array
-1. Two Sum II - Input Array Is Sorted
+/*Two pointer questions - Array (Easy)
+1. Two Sum II - Input Array Is Sorted (Med)
 2. Squares of a Sorted Array
 3. Valid Palindrome
 4. Reverse String
 5. Is Subsequence (LeetCode 392)
 6. DI String Match (LeetCode 942)
-7. Container With Most Water
+7. Container With Most Water (Med)
 8. Reverse Array In-Place / Reverse without extra array
 9. Intersection of Two Arrays II (Sorted Variant)
 10. Merge sorted array ((From the End))
+*/
+
+// ------- Two Pointer Medium --------
+/*
+//        (Array)
+
+1. 3Sum (LeetCode 15)
+2. 4. 4Sum (LeetCode 18)
+
+
+//         (String)
+1. String Compression (443)
+2. Reverse Words in a String (151)
+3. Compare Version Numbers (165)
+4. Append Characters to String to Make Subsequence (2486)
+5. Swap Adjacent in LR String (777)
+6. Camelcase Matching (1023)
+7. Long Pressed Name (925)
+
 */
 
 // 1. Two Sum II - Input Array Is Sorted
@@ -142,7 +161,7 @@ function isSubsequence(s, t) {
 console.log(isSubsequence("abc", "adbfc"));
 
 //  6. DI String Match (LeetCode 942)
-
+// (Yet nahi)
 function diStringMatch(s) {
   // The available numbers are 0 to s.length
   let left = 0;
@@ -266,135 +285,92 @@ function merge(nums1, m, nums2, n) {
 
 console.log(merge(nums1, 3, nums2, 3));
 
+// ----------------------------------
+// ----- Two Pointer Medium ---------
+// ----------------------------------
 
-// ----- SLOW FAST Easy ---------
+// (Array)
 
-// How to Recognize This Pattern Immediately
-// Whenever a problem asks for in-place modification with these conditions:
-// "Modify the array in-place with $O(1)$ extra memory"
-// "Filter, remove, or rearrange specific elements while maintaining relative order"
+// 1. 3Sum (LeetCode 15)
 
-/* 
-1. Remove Duplicates
-2. Remove Element
-3. Move Zeroes
-4. Duplicate Zeros (LeetCode 1089)
+// input: [-1, 0, 1, 2, -1, -4]
 
-*/
+function threeSum(nums) {
+  nums.sort((a, b) => a - b); // [-4, -1, -1, 0, 1, 2]
 
-// 1. Remove Duplicates
+  let result = [];
 
-function removeDuplicates(arr) {
-  if (arr.length === 0) return 0;
-
-  let slow = 0;
-
-  for (let fast = 1; fast < arr.length; fast++) {
-    if (arr[fast] !== arr[slow]) {
-      slow++;
-      arr[slow] = arr[fast];
+  for (let i = 0; i < nums.length - 2; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) {
+      continue;
     }
-  }
 
-  return slow + 1;
-}
+    let left = i + 1;
+    let right = nums.length - 1;
 
-// 2. Remove Element
+    while (left < right) {
+      let sum = nums[i] + nums[left] + nums[right];
 
-function removeElement(arr, val) {
-  let slow = 0;
+      if (sum === 0) {
+        result.push([nums[i], nums[left], nums[right]]);
 
-  for (let fast = 0; fast < arr.length; fast++) {
-    if (arr[fast] !== val) {
-      arr[slow] = arr[fast];
-      slow++;
-    }
-  }
+        while (left < right && nums[left] === nums[left + 1]) {
+          left++;
+        }
 
-  return slow;
-}
+        while (left < right && nums[right] === nums[right - 1]) {
+          right--;
+        }
 
-let arr = [3, 2, 2, 3];
-
-let length = removeElement(arr, 3);
-
-console.log(length); // 2
-console.log(arr.slice(0, length)); // [2, 2]
-
-// 3a). Move Zeroes to front (Slow Fast)
-
-function moveZeroesToFront(arr) {
-  let slow = arr.length - 1;
-
-  for (let fast = arr.length - 1; fast >= 0; fast--) {
-    if (arr[fast] !== 0) {
-      [arr[slow], arr[fast]] = [arr[fast], arr[slow]];
-      slow--;
-    }
-  }
-
-  return arr;
-}
-
-console.log(moveZeroesToFront([1, 1, 0, 1, 0, 1, 1, 0, 0]));
-
-// 3b). Move Zeroes to end (Slow Fast)
-
-function moveZeroes(arr) {
-  let slow = 0;
-
-  for (let fast = 0; fast < arr.length; fast++) {
-    if (arr[fast] !== 0) {
-      [arr[slow], arr[fast]] = [arr[fast], arr[slow]];
-      slow++;
-    }
-  }
-
-  return arr;
-}
-
-console.log(moveZeroes([1, 1, 0, 1, 0, 1, 1, 0, 0]));
-
-// 4. Duplicate Zeros (LeetCode 1089)
-
-function duplicateZeros(arr) {
-  let possibleDups = 0;
-  let last = arr.length - 1;
-
-  // Count duplicatable zeros
-  for (let left = 0; left <= last - possibleDups; left++) {
-    if (arr[left] === 0) {
-      if (left === last - possibleDups) {
-        arr[last] = 0;
-        last--;
-        break;
+        left++;
+        right--;
+      } else if (sum < 0) {
+        left++;
+      } else {
+        right--;
       }
-      possibleDups++;
     }
   }
-
-  let i = last - possibleDups;
-  let j = last;
-
-  while (i >= 0) {
-    if (arr[i] === 0) {
-      arr[j] = 0;
-      j--;
-      arr[j] = 0;
-      j--;
-    } else {
-      arr[j] = arr[i];
-      j--;
-    }
-    i--;
-  }
-
-  return arr;
+  return result;
 }
 
-console.log(duplicateZeros([1, 0, 2, 3, 0, 4, 5, 0]));
+// 1. String Compression (LeetCode 443)
+// Time: O(n)
+// Space: O(1)
+let chars = ["a", "a", "b", "b", "c", "c", "c"];
 
-// arr = [1,0,2,3,0,4,5,0]
+Output: ["a", "2", "b", "2", "c", "3"];
 
-// Output:
-// [1,0,0,2,3,0,0,4]
+function compress(chars) {
+  let write = 0;
+  let read = 0;
+
+  while (read < chars.length) {
+    let char = chars[read];
+    let count = 0;
+
+    while (read < chars.length && chars[read] === char) {
+      count++;
+      read++;
+    }
+
+    chars[write] = char;
+    write++;
+
+    if (count > 1) {
+      let countString = count.toString();
+
+      for (let digit of countString) {
+        chars[write] = digit;
+        write++;
+      }
+    }
+  }
+
+  return write;
+}
+
+let length = compress(chars);
+
+console.log(length); // 6
+console.log(chars.slice(0, length));
