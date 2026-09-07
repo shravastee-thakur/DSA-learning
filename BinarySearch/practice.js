@@ -1,23 +1,19 @@
-function fairCandySwap(aliceSzes, bobSizes) {
-  let sumA = aliceSzes.reduce((a, b) => a + b, 0);
-  let sumB = bobSizes.reduce((a, b) => a + b, 0);
-  let diff = (sumB - sumA) / 2;
+function checkIfExist(arr) {
+  arr.sort((a, b) => a - b);
 
-  for (let candy of aliceSzes) {
-    let target = candy + diff;
-
+  for (let i = 0; i < arr.length; i++) {
+    let target = 2 * arr[i];
     let left = 0;
-    let right = bobSizes.length - 1;
+    let right = arr.length - 1;
 
     while (left <= right) {
       let mid = Math.floor((left + right) / 2);
-      if (bobSizes[mid] === target) return [candy, target];
-      if (bobSizes[mid] < target) left = mid + 1;
+      if (arr[mid] === target && mid !== i) return true;
+      if (arr[mid] < target) left = mid + 1;
       else right = mid - 1;
     }
   }
-
-  return [];
+  return false;
 }
 
-console.log(fairCandySwap([1, 1], [2, 2])); // Output: [1, 2]
+console.log(checkIfExist([10, 2, 5, 3])); // Output: true

@@ -41,7 +41,7 @@ console.log(arraySum([10, 20, 30, 40, 50]));
 
 // 3) Largest element
 
-let arr = [10, 2, 78, 100, 4];
+// let arr = [10, 2, 78, 100, 4];
 let max = arr[0];
 
 for (let i = 1; i < arr.length; i++) {
@@ -53,8 +53,8 @@ console.log(max);
 
 // 4) Second largest
 
-let arr = [10, 30, 56, 43, 29, 64, 49, 60, 64];
-let max = Math.max(arr[0], arr[1]);
+// let arr = [10, 30, 56, 43, 29, 64, 49, 60, 64];
+// let max = Math.max(arr[0], arr[1]);
 let smax = Math.min(arr[0], arr[1]);
 
 for (let i = 2; i < arr.length; i++) {

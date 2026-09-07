@@ -1,40 +1,28 @@
-function threeSum(nums) {
-  nums.sort((a, b) => a - b); // [-4, -1, -1, 0, 1, 2]
+function numRescueBoats(people, limit) {
+  // 1. Sort the people by weight from lightest to heaviest
+  people.sort((a, b) => a - b);
 
-  let result = [];
+  let left = 0; // The lightest person
+  let right = people.length - 1; // The heaviest person
+  let boats = 0;
 
-  for (let i = 0; i < nums.length - 2; i++) {
-    if (i > 0 && nums[i] === nums[i - 1]) {
-      continue;
+  // Continue until everyone has been assigned a boat
+  // (We use <= because if left === right, there is one person left who needs a boat)
+  while (left <= right) {
+    // Can the lightest and heaviest person share a boat?
+    if (people[left] + people[right] <= limit) {
+      left++; // Lightest person gets on the boat
+      right--; // Heaviest person gets on the boat
+    } else {
+      // Heaviest person is too heavy to share, they must go alone
+      right--;
     }
 
-    let left = i + 1;
-    let right = nums.length - 1;
-
-    while (left < right) {
-      let sum = nums[i] + nums[left] + nums[right];
-
-      if (sum === 0) {
-        result.push([nums[i], nums[left], nums[right]]);
-
-        while (left < right && nums[left] === nums[left + 1]) {
-          left++;
-        }
-
-        while (left < right && nums[right] === nums[right - 1]) {
-          right--;
-        }
-
-        left++;
-        right--;
-      } else if (sum < 0) {
-        left++;
-      } else {
-        right--;
-      }
-    }
+    // No matter what happened above, one boat just left the dock
+    boats++;
   }
-  return result;
+
+  return boats;
 }
 
-console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+console.log(numRescueBoats([3, 2, 2, 1], 3));

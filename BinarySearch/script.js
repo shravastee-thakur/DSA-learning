@@ -221,7 +221,6 @@ function findKthPositive(arr, k) {
     // Count missing numbers to the left of 'mid'
     let missingCount = arr[mid] - mid - 1; // Actual value - Expected value
 
-    if (missingCount === k) return mid;
     if (missingCount < k) left = mid + 1;
     else right = mid - 1;
   }
@@ -235,6 +234,9 @@ console.log(findKthPositive([2, 3, 4, 7, 11], 5)); // Output: 9
 
 // Time Complexity: O(n log n) due to sorting, then O(log n) for search.
 // Space Complexity: O(1) or O(n) depending on JS sort implementation.
+
+// If nums[mid] === mid: Everything to the left of mid is in its proper place. The missing number must be farther to the right, so move left = mid + 1.
+// If nums[mid] !== mid (meaning nums[mid] > mid): A number was skipped somewhere to the left (or at mid), so move right = mid - 1.
 
 function missingNumber(nums) {
   nums.sort((a, b) => a - b);
@@ -310,7 +312,7 @@ function fairCandySwap(aliceSzes, bobSizes) {
 
 console.log(fairCandySwap([1, 1], [2, 2])); // Output: [1, 2]
 
-// 15. Check If N and Its Double Exist
+// 13. Check If N and Its Double Exist
 // Imagine you have a line of numbered cards on the floor: [10, 2, 5, 3]. You want to find out if there is a Double Buddy Pair where one card is exactly twice as big as another card (like 2 and 4, or 5 and 10).
 
 function checkIfExist(arr) {
@@ -323,7 +325,6 @@ function checkIfExist(arr) {
 
     while (left <= right) {
       let mid = Math.floor((left + right) / 2);
-      // Ensure we don't count the same index (e.g., 0 * 2 = 0)
       if (arr[mid] === target && mid !== i) return true;
       if (arr[mid] < target) left = mid + 1;
       else right = mid - 1;
@@ -332,5 +333,4 @@ function checkIfExist(arr) {
   return false;
 }
 
-// Example
 console.log(checkIfExist([10, 2, 5, 3])); // Output: true
