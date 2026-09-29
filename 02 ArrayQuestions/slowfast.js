@@ -31,7 +31,7 @@ function findMiddle(arr) {
   return arr[slow];
 }
 
-const arr = [10, 20, 30, 40, 50];
+// const arr = [10, 20, 30, 40, 50];
 
 console.log(findMiddle(arr));
 
@@ -93,9 +93,9 @@ function removeDuplicates(nums) {
   return slow + 1;
 }
 
-let nums = [1, 1, 2, 2, 3];
+// let nums = [1, 1, 2, 2, 3];
 
-let k = removeDuplicates(nums);
+// let k = removeDuplicates(nums);
 
 console.log(k); // 3
 console.log(nums.slice(0, k)); // [1,2,3]

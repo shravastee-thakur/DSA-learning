@@ -1,20 +1,17 @@
-function nextGreatestLetter(letters, target) {
-  let left = 0,
-    right = letters.length - 1;
-  let result = letters[0];
-  while (left <= right) {
-    let mid = Math.floor((left + right) / 2);
-    if (letters[mid] > target) {
-      result = letters[mid];
-      right = mid - 1;
-    } else {
-      left = mid + 1;
-    }
+function deleteMiddle(head) {
+  if (head === null || head.next === null) {
+    return null;
   }
-  return result;
-}
 
-console.log(
-  "8. Next Greatest Letter:",
-  nextGreatestLetter(["c", "f", "j"], "c"),
-);
+  let slow = head;
+  let fast = head.next.next;
+
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  slow.next = slow.next.next;
+
+  return head;
+}

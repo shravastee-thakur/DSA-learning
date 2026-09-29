@@ -1,7 +1,7 @@
 /*Two pointer questions - Array (Easy)
-1. Two Sum II - Input Array Is Sorted (Med)
-2. Squares of a Sorted Array
-3. Valid Palindrome
+1. Two Sum II - Input Array Is Sorted (Med) (167)
+2. Squares of a Sorted Array (977)
+3. Valid Palindrome (125)
 4. Reverse String
 5. Is Subsequence (LeetCode 392)
 6. DI String Match (LeetCode 942)
@@ -192,7 +192,7 @@ function diStringMatch(s) {
 // const height = [1,8,6,2,5,4,8,3,7];
 // Output: 49
 
-// Area = width × shorter height
+// Area = width × shorter height (short because water spills over the lowest side)
 // Move the pointer with the smaller height.
 
 function maxArea(height) {
