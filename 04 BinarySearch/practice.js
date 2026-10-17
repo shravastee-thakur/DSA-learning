@@ -1,17 +1,14 @@
-function deleteMiddle(head) {
-  if (head === null || head.next === null) {
-    return null;
+function searchInsert(nums, target) {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    if (nums[mid] === target) return mid;
+    if (nums[mid] < target) left = mid + 1;
+    else right = mid - 1;
   }
-
-  let slow = head;
-  let fast = head.next.next;
-
-  while (fast !== null && fast.next !== null) {
-    slow = slow.next;
-    fast = fast.next.next;
-  }
-
-  slow.next = slow.next.next;
-
-  return head;
+  return left;
 }
+
+console.log(searchInsert([1, 3, 5, 6], 2));

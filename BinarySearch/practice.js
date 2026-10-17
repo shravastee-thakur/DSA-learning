@@ -16,4 +16,4 @@ function checkIfExist(arr) {
   return false;
 }
 
-console.log(checkIfExist([10, 2, 5, 3])); // Output: true
+console.log(checkIfExist([10, 2, 5, 3]));

@@ -1,4 +1,4 @@
-/* Easy
+/* Easy - 7
 1. Basic Traversal + Modification (Dummy Node + Pointer Manipulation)
 203. Remove Linked List Elements
 
@@ -24,7 +24,7 @@
 160. Intersection of Two Linked Lists
 */
 
-/* Medium Linked List
+/* Medium Linked List - 11
 (1. Partial Reversal)                     
 92. Reverse Linked List II ✅
 
