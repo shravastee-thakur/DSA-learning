@@ -107,7 +107,7 @@ function removeElements(head, val) {
  * @return {ListNode}
  */
 
-function reverseList(head, val) {
+function reverseList(head) {
   let prev = null;
   let curr = head;
 
