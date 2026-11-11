@@ -1,221 +1,353 @@
-/**
- * 1. BINARY SEARCH (Find target in sorted array)
- * Logic: Set two pointers at the ends. Find the middle.
- * If the middle is too small, move the left pointer up.
- * If it's too big, move the right pointer down.
- * Time: O(log n) | Space: O(1)
- */
+/*========== Easy ==========
 
-function binarySearch(arr, target) {
+1) Binary Search (704)
+2) Search Insert Position (35)
+3) Find Smallest Letter Greater Than Target (744)
+4) First Bad Version (278)
+5) Guess Number Higher or Lower (374)
+6) Valid Perfect Square (367)
+7) Sqrt(x) (69)
+8) Arranging Coins (441)
+9) Kth Missing Positive Number (1539)
+10) Missing Number (268)
+11) Intersection II (350)
+12) Fair Candy Swap (888)
+13) Distance Value Between Two Arrays (1385)
+14) Longest Subsequence With Limited Sum (1498)
+15) Check If N and Its Double Exist (1346)
+*/
+
+/*===========Medium==========
+
+1	(34)	Find First and Last Position of Element in Sorted Array
+2	(33)	Search in Rotated Sorted Array
+3	(153)	Find Minimum in Rotated Sorted Array
+4	(74)	Search a 2D Matrix
+5	(875)	Koko Eating Bananas
+6	(1011)	Capacity To Ship Packages Within D Days
+7	(1482)	Minimum Number of Days to Make m Bouquets
+8	(1283)	Find the Smallest Divisor Given a Threshold
+9	(540)	Single Element in a Sorted Array
+10	(162)	Find Peak Element
+11	(658)	Find K Closest Elements
+12	(981)	Time Based Key-Value Store
+
+*/
+
+// 1) Classic binary search
+// input : [-1, 0, 3, 5, 9, 12]
+// Output: 4
+
+// target = 9
+
+// Time Complexity: O(log n)
+// Space Complexity: O(1)
+
+function search(nums, target) {
   let left = 0;
-  let right = arr.length - 1;
-
-  while (left <= right) {
-    // Math.floor is crucial so we don't get decimal indices
-    let mid = Math.floor((left + right) / 2);
-
-    if (arr[mid] === target) return mid;
-    if (arr[mid] < target) left = mid + 1; // Target is on the right side
-    if (arr[mid] > target) right = mid - 1; // Target is on the left side
-  }
-  return -1; // Not found
-}
-console.log("1. Binary Search:", binarySearch([2, 4, 6, 8, 10, 12], 8)); // 3
-
-/**
- * 2. FIND FIRST OCCURRENCE OF ELEMENT
- * Logic: When you find the target, don't stop! Record the index,
- * but keep searching the LEFT side to see if an earlier one exists.
- */
-
-function findFirstOccurrence(arr, target) {
-  let left = 0,
-    right = arr.length - 1;
-  let firstIndex = -1;
+  let right = nums.length - 1;
 
   while (left <= right) {
     let mid = Math.floor((left + right) / 2);
-
-    if (arr[mid] === target) {
-      firstIndex = mid; // Record it
-      right = mid - 1; // Keep looking LEFT for an earlier one
-    } else if (arr[mid] < target) {
-      left = mid + 1;
-    } else {
-      right = mid - 1;
-    }
-  }
-  return firstIndex;
-}
-console.log(
-  "2. First Occurrence:",
-  findFirstOccurrence([2, 4, 8, 8, 8, 10], 8),
-); // 2
-
-/**
- * 3. FIND LAST OCCURRENCE OF ELEMENT
- * Logic: When you find the target, record it, but keep
- * searching the RIGHT side to see if a later one exists.
- */
-
-function findLastOccurrence(arr, target) {
-  let left = 0,
-    right = arr.length - 1;
-  let lastIndex = -1;
-
-  while (left <= right) {
-    let mid = Math.floor((left + right) / 2);
-
-    if (arr[mid] === target) {
-      lastIndex = mid; // Record it
-      left = mid + 1; // Keep looking RIGHT for a later one
-    } else if (arr[mid] < target) {
-      left = mid + 1;
-    } else {
-      right = mid - 1;
-    }
-  }
-  return lastIndex;
-}
-console.log("3. Last Occurrence:", findLastOccurrence([2, 4, 8, 8, 8, 10], 8)); // 4
-
-/**
- * 4. FIND FIRST AND LAST POSITION IN SORTED ARRAY
- * Logic: Just combine the two functions we already wrote!
- * (This is LeetCode #34, technically marked Medium, but conceptually Easy).
- */
-
-function searchRange(arr, target) {
-  const first = findFirstOccurrence(arr, target);
-  // Optimization: If it doesn't exist at all, skip the second search
-  if (first === -1) return [-1, -1];
-
-  const last = findLastOccurrence(arr, target);
-  return [first, last];
-}
-console.log("4. First and Last:", searchRange([2, 4, 8, 8, 8, 10], 8)); // [2, 4]
-
-/**
- * 5. CHECK IF ELEMENT EXISTS (BOOLEAN SEARCH)
- * Logic: Call our standard binary search. If it returns anything
- * other than -1, the element exists.
- */
-
-function existsInArray(arr, target) {
-  return binarySearch(arr, target) !== -1;
-}
-console.log("5. Exists (Boolean):", existsInArray([2, 4, 6, 8, 10], 6)); // true
-
-/**
- * 6. SEARCH INSERT POSITION (LeetCode 35)
- * Problem: Find target. If it's not there, return the index where it *should* be inserted.
- * Logic: If the loop finishes without finding the target, 'left' naturally
- * rests exactly where the target *should* be.
- */
-
-function searchInsert(arr, target) {
-  let left = 0,
-    right = arr.length - 1;
-  while (left <= right) {
-    let mid = Math.floor((left + right) / 2);
-    if (arr[mid] === target) return mid;
-    if (arr[mid] < target) left = mid + 1;
+    if (nums[mid] === target) return mid;
+    if (nums[mid] < target) left = mid + 1;
     else right = mid - 1;
   }
-  return left; // 'left' is the insertion index!
+  return -1;
 }
-console.log("6. Search Insert:", searchInsert([1, 3, 5, 6], 2)); // 1 (Between 1 and 3)
 
-/**
- * 7. COUNT OCCURRENCES OF AN ELEMENT
- * Problem: Find how many times a number appears in a sorted array.
- * Logic: Last occurrence index minus First occurrence index + 1.
- */
-function countOccurrences(arr, target) {
-  const first = findFirstOccurrence(arr, target);
-  if (first === -1) return 0; // Doesn't exist
+// Example
+console.log(search([-1, 0, 3, 5, 9, 12], 9));
 
-  const last = findLastOccurrence(arr, target);
-  return last - first + 1;
-}
-console.log("7. Count Occurrences:", countOccurrences([2, 2, 8, 8, 8, 10], 8)); // 3
+// 2. Search Insert Position
+// Find the index where a target should be inserted to maintain sorted order.
 
-/**
- * 8. FIND SMALLEST LETTER GREATER THAN TARGET (LeetCode 744)
- * Problem: Given an array of letters, find the smallest one strictly greater than target.
- * Logic: Similar to First Occurrence, but we are looking for > target.
- */
-function nextGreatestLetter(letters, target) {
-  let left = 0,
-    right = letters.length - 1;
-  let result = letters[0]; // Letters wrap around (like a circle) if no larger letter exists
+// input: [1, 3, 5, 6]
+// // Output: 1
+
+// Time Complexity: O(log n)
+// Space Complexity: O(1)
+
+// target = 2
+
+function searchInsert(nums, target) {
+  let left = 0;
+  let right = nums.length - 1;
 
   while (left <= right) {
     let mid = Math.floor((left + right) / 2);
-    if (letters[mid] > target) {
-      result = letters[mid];
-      right = mid - 1; // Keep looking left for a *smaller* larger letter
-    } else {
+    if (nums[mid] === target) return mid;
+    if (nums[mid] < target) left = mid + 1;
+    else right = mid - 1;
+  }
+  return left;
+}
+
+// Example
+console.log(searchInsert([1, 3, 5, 6], 2));
+
+// 3. Find Smallest Letter Greater Than Target (744)
+// input: ["c", "f", "j"]
+// output: "c"
+
+// target = "a"
+
+function nextGreatestLetter(letters, target) {
+  let left = 0;
+  let rigth = letters.length - 1;
+
+  while (left <= rigth) {
+    let mid = Math.floor((left + rigth) / 2);
+    if (letters[mid] <= target) {
       left = mid + 1;
-    }
-  }
-  return result;
-}
-console.log(
-  "8. Next Greatest Letter:",
-  nextGreatestLetter(["c", "f", "j"], "c"),
-); // 'f'
-
-/**
- * 9. PEAK INDEX IN A MOUNTAIN ARRAY (LeetCode 852)
- * Problem: Array goes up, then goes down. Find the peak (highest number).
- * Logic: Compare mid to the number right next to it.
- * If mid < mid+1, you are walking UP the mountain (peak is to the right).
- * If mid > mid+1, you are walking DOWN the mountain (peak is to the left).
- */
-function peakIndexInMountainArray(arr) {
-  let left = 0,
-    right = arr.length - 1;
-
-  while (left < right) {
-    // Notice it's strictly <
-    let mid = Math.floor((left + right) / 2);
-    if (arr[mid] < arr[mid + 1]) {
-      left = mid + 1; // Walk up
     } else {
-      right = mid; // Walk down (mid might BE the peak, so don't do mid-1)
+      rigth = mid - 1;
     }
   }
-  return left; // left and right will eventually converge on the peak
+  return letters[left % letters.length];
 }
-console.log("9. Peak Index:", peakIndexInMountainArray([0, 1, 5, 10, 3, 2])); // 3 (Value: 10)
 
-/**
- * 10. SQUARE ROOT USING BINARY SEARCH (LeetCode 69)
- * Problem: Find the floor of the square root of 'x' without built-in functions.
- * Logic: The square root of x must be between 1 and x. Binary search that range!
- */
+console.log(nextGreatestLetter(["c", "f", "j"], "a"));
+
+// 4. First Bad Version (278)
+
+function solution(isBadVersion) {
+  return function (n) {
+    let left = 1;
+    let right = n;
+
+    while (left < right) {
+      let mid = Math.floor(left + (right - left) / 2);
+      if (isBadVersion(mid)) right = mid;
+      else left = mid + 1;
+    }
+    return left;
+  };
+}
+
+// Example (Mock API)
+const isBadVersion = (v) => v >= 4;
+console.log(solution(isBadVersion)(5)); // Output: 4
+
+// 5. Guess Number Higher or Lower (374)
+
+function guessNumber(n) {
+  let left = 1;
+  let right = n;
+
+  while (left <= right) {
+    let mid = Math.floor(left + (right - left) / 2);
+    let res = guess(mid);
+
+    if (res === 0) return mid;
+    if (res === -1) right = mid - 1;
+    else left = mid + 1;
+  }
+  return -1;
+}
+
+// Example (Mock API where picked number is 6)
+const guess = (num) => (num === 6 ? 0 : num > 6 ? -1 : 1);
+console.log(guessNumber(10)); // Output: 6
+
+// 6. Valid Perfect Square (367)
+
+// Time Complexity: O(log n)
+// Space Complexity: O(1)
+
+function isPerfectSquare(num) {
+  if (num < 2) return true;
+  let left = 2;
+  let right = Math.floor(num / 2);
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    let sqaure = mid * mid;
+    if (sqaure === num) return true;
+    if (sqaure < num) left = mid + 1;
+    else right = mid - 1;
+  }
+
+  return false;
+}
+
+console.log(isPerfectSquare(16)); // Output: true
+
+// 7. Sqrt(x) (69)
+// Compute and return the square root of x rounded down to the nearest integer.
 
 function mySqrt(x) {
-  if (x === 0 || x === 1) return x;
+  if (x < 2) return x;
 
-  let left = 1,
-    right = x;
-  let result = 0;
+  let left = 2;
+  let right = Math.floor(x / 2);
 
   while (left <= right) {
     let mid = Math.floor((left + right) / 2);
     let square = mid * mid;
+    if (square === x) return mid;
+    if (square < x) left = mid + 1;
+    else right = mid - 1;
+  }
+  return right;
+}
 
-    if (square === x) return mid; // Perfect square
+console.log(mySqrt(8)); // Output: 2
 
-    if (square < x) {
-      result = mid; // Record highest possible floor value
-      left = mid + 1;
-    } else {
-      right = mid - 1;
+// 8. Arranging Coins (441)
+
+function arrangeCoins(n) {
+  let left = 1;
+  let right = n;
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    let coinsNeeded = (mid * (mid + 1)) / 2;
+
+    if (coinsNeeded === n) return mid;
+    if (coinsNeeded < n) left = mid + 1;
+    else right = mid - 1;
+  }
+  return right;
+}
+
+// Example
+console.log(arrangeCoins(5)); // Output: 2
+
+// 9. Kth Missing Positive Number (1539)
+
+/*
+You are given a sorted list of positive numbers (like [2, 3, 4, 7, 11]).
+If you start counting from 1, 2, 3, 4, 5, 6, 7, 8, 9, 10..., some numbers are skipped in the array.
+The skipped numbers are the missing numbers:
+1 (1st missing)
+5 (2nd missing)
+6 (3rd missing)
+8 (4th missing)
+9 (5th missing)
+For k = 5, the answer is 9.
+*/
+
+function findKthPositive(arr, k) {
+  let left = 0;
+  let right = arr.length - 1;
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+
+    // Count missing numbers to the left of 'mid'
+    let missingCount = arr[mid] - mid - 1; // Actual value - Expected value
+
+    if (missingCount < k) left = mid + 1;
+    else right = mid - 1;
+  }
+  // left represents the number of elements in arr that are less than our target answer
+  return left + k;
+}
+
+console.log(findKthPositive([2, 3, 4, 7, 11], 5)); // Output: 9
+
+// 10. Missing Number (Binary Search Variation) (268)
+
+// Time Complexity: O(n log n) due to sorting, then O(log n) for search.
+// Space Complexity: O(1) or O(n) depending on JS sort implementation.
+
+// If nums[mid] === mid: Everything to the left of mid is in its proper place. The missing number must be farther to the right, so move left = mid + 1.
+// If nums[mid] !== mid (meaning nums[mid] > mid): A number was skipped somewhere to the left (or at mid), so move right = mid - 1.
+
+function missingNumber(nums) {
+  nums.sort((a, b) => a - b);
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    if (nums[mid] === mid) left = mid + 1;
+    else right = mid - 1;
+  }
+  return left;
+}
+
+console.log(missingNumber([3, 0, 1])); // Output: 2
+
+// 11. Intersection of Two Arrays II
+
+function intersect(nums1, nums2) {
+  nums2.sort((a, b) => a - b);
+  let result = [];
+
+  for (let num of nums1) {
+    let left = 0;
+    let right = nums2.length - 1;
+    let foundIdx = -1;
+
+    while (left <= right) {
+      let mid = Math.floor((left + right) / 2);
+      if (nums2[mid] === num) {
+        foundIdx = mid;
+        right = mid - 1;
+      } else if (nums2[mid] < num) {
+        left = mid + 1;
+      } else {
+        right = mid - 1;
+      }
+    }
+
+    if (foundIdx !== -1) {
+      result.push(num);
+      nums2.splice(foundIdx, 1); // Remove to prevent double counting
     }
   }
   return result;
 }
-console.log("10. Square Root Floor:", mySqrt(10)); // 3 (Since 3*3=9, 4*4=16)
+
+console.log(intersect([1, 2, 2, 1], [2, 2])); // Output: [2, 2]
+
+// 12. Fair Candy Swap
+
+function fairCandySwap(aliceSzes, bobSizes) {
+  let sumA = aliceSzes.reduce((a, b) => a + b, 0);
+  let sumB = bobSizes.reduce((a, b) => a + b, 0);
+  let diff = (sumB - sumA) / 2;
+
+  for (let candy of aliceSzes) {
+    let target = candy + diff;
+
+    let left = 0;
+    let right = bobSizes.length - 1;
+
+    while (left <= right) {
+      let mid = Math.floor((left + right) / 2);
+      if (bobSizes[mid] === target) return [candy, target];
+      if (bobSizes[mid] < target) left = mid + 1;
+      else right = mid - 1;
+    }
+  }
+
+  return [];
+}
+
+console.log(fairCandySwap([1, 1], [2, 2])); // Output: [1, 2]
+
+// 13. Check If N and Its Double Exist
+// Imagine you have a line of numbered cards on the floor: [10, 2, 5, 3]. You want to find out if there is a Double Buddy Pair where one card is exactly twice as big as another card (like 2 and 4, or 5 and 10).
+
+function checkIfExist(arr) {
+  arr.sort((a, b) => a - b);
+
+  for (let i = 0; i < arr.length; i++) {
+    let target = 2 * arr[i];
+    let left = 0;
+    let right = arr.length - 1;
+
+    while (left <= right) {
+      let mid = Math.floor((left + right) / 2);
+      if (arr[mid] === target && mid !== i) return true;
+      if (arr[mid] < target) left = mid + 1;
+      else right = mid - 1;
+    }
+  }
+  return false;
+}
+
+console.log(checkIfExist([10, 2, 5, 3])); // Output: true
